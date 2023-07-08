@@ -1,11 +1,11 @@
 {
-  "id": "example",
+  "id": "server-gui",
   "version": "1.0.0",
-  "entry": "com.example.ExampleMod",
+  "entry": "com.minepalm.servergui.ServerGui",
   "dependencies": [
     "ignite"
   ],
   "mixins": [
-    "mixins.example.core.json"
+    "mixins.servergui.core.json"
   ]
 }

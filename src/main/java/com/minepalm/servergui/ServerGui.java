@@ -22,38 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.example;
+package com.minepalm.servergui;
 
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.objectmapping.meta.Comment;
-import org.spongepowered.configurate.objectmapping.meta.Setting;
+import com.google.inject.Inject;
+import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import space.vectrix.ignite.api.Platform;
+import space.vectrix.ignite.api.event.Subscribe;
+import space.vectrix.ignite.api.event.platform.PlatformInitializeEvent;
 
-@ConfigSerializable
-public final class ExampleConfig {
-    @Setting(value = "test")
-    @Comment(value = "Test configuration property.")
-    private boolean test;
+public final class ServerGui {
+    private final Logger logger;
+    private final Platform platform;
 
-    @Setting(value = "container")
-    @Comment(value = "A test container.")
-    private TestContainer container;
-
-    public boolean test() {
-        return this.test;
+    @Inject
+    public ServerGui(final Logger logger,
+                     final Platform platform) {
+        this.logger = logger;
+        this.platform = platform;
     }
 
-    public TestContainer container() {
-        return this.container;
-    }
+    @Subscribe
+    public void onInitialize(final @NonNull PlatformInitializeEvent event) {
+        this.logger.info("ServerGui-Ignite port is Enabled.");
 
-    @ConfigSerializable
-    public static class TestContainer {
-        @Setting(value = "foo")
-        @Comment(value = "A test boolean in a container.")
-        private boolean foo;
-
-        public boolean foo() {
-            return this.foo;
-        }
     }
 }

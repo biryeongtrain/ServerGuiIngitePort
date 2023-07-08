@@ -8,6 +8,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ignite-mod-template"
+rootProject.name = "ServerGui-ignitePort"
 
 includeBuild("build-logic")
