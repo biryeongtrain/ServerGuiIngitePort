@@ -99,11 +99,10 @@ public abstract class ServerGamePacketListenerImplMixin {
 
     @Inject(method = "handleContainerClose(Lnet/minecraft/network/protocol/game/ServerboundContainerClosePacket;Lorg/bukkit/event/inventory/InventoryCloseEvent$Reason;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/server/level/ServerLevel;)V", shift = At.Shift.AFTER), cancellable = true)
     private void serverGui$storeScreenHandler(ServerboundContainerClosePacket packet,InventoryCloseEvent.Reason reason, CallbackInfo info) {
-        player.sendSystemMessage(Component.literal("close screen"));
         if (this.player.containerMenu instanceof VirtualScreenHandler handler) {
             if (handler.getGui().canPlayerClose()) {
                 this.serverGui$previousScreen = this.player.containerMenu;
-                this.player.sendSystemMessage(Component.literal("previous Screen sets ").append( serverGui$previousScreen.getTitle()));
+
             } else {
                 var screenHandler = this.player.containerMenu;
                 if (screenHandler.getType() != null) {
@@ -120,8 +119,6 @@ public abstract class ServerGamePacketListenerImplMixin {
 
     @Inject(method = "handleContainerClose(Lnet/minecraft/network/protocol/game/ServerboundContainerClosePacket;Lorg/bukkit/event/inventory/InventoryCloseEvent$Reason;)V", at = @At("TAIL"))
     private void serverGui$executeClosing(ServerboundContainerClosePacket packet, InventoryCloseEvent.Reason reason, CallbackInfo info) {
-        this.player.sendSystemMessage(Component.literal("Closing GUI..."));
-        this.player.sendSystemMessage(Component.literal(reason.name()));
         try {
             if (this.serverGui$previousScreen != null) {
                 if (this.serverGui$previousScreen instanceof VirtualScreenHandlerInterface screenHandler) {
